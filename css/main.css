@@ -1,0 +1,25 @@
+
+
+.snillrik-robots-table{
+    width:100%;
+}
+
+#snillrik_robots_times_list{
+    min-width: 300px;
+    background: #f1f1f1;
+}
+#snillrik_robots_times_list tr:nth-child(even){
+	background: #e0e0e0;
+}
+#snillrik_robots_times_list td{
+	padding:10px;
+}
+
+.delete_box{
+    background: #d86d6d;
+    color: white;
+    padding: 5px 10px;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
