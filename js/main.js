@@ -1,4 +1,4 @@
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
 
 
     /**
@@ -9,43 +9,27 @@ jQuery(document).ready(function($) {
     //var urlen = "http://localhost:3000/";
     //var urlen = "http://qwad.se:51237";
     //var urlen = "https://robotcar-271510.appspot.com";
-    let urlen = "http://robot.qwad.se";
+    //let urlen = "http://robot.qwad.se";
+
+    let urlen = "ws://192.168.0.34/ws";
+
+    var robottsocket = new WebSocket(urlen, "protocolOne");
+    console.log(robottsocket);
+
+    //    robottsocket.send("Here's some text that the server is urgently awaiting!");
+    robottsocket.onopen = function (event) {
+        robottsocket.send('snuggle');
+        //robottsocket.send("Here's some text that the server is urgently awaiting!");
+    };
+    robottsocket.onmessage = onMessage;
+
+    function onMessage(event) {
+        console.log(event.data);
+    }
+
 
     var connection_attempts = 0;
-    var socket = io(urlen, {
-        reconnectionAttempts: 1,
-        /* path: "/robotbil/" */
-    });
-
-    $.post(
-        page_info.ajax_url, { "action": "snillrik_fetchsessontoken" },
-        function(response) {
-            let snillrik_robottoken = response;
-            socket = io.connect(urlen, {
-                reconnectionAttempts: 3,
-                /* path: "/robotbil/" */
-            });
-            socket.on('reconnecting', () => {
-                connection_attempts++;
-                $("#snillrik_connecting_status").html("Timed out, trying again (" + connection_attempts + ")");
-            });
-            socket.on('reconnect_failed', () => {
-                $("#snillrik_connecting_status").html("Connection failed");
-                $("#snillrik_connecting_status").css({ "color": "red" });
-                console.log("wat, noo connexioon tried " + connection_attempts + " times... wth... #sadface");
-                connection_attempts = 0;
-            });
-            socket.on('connect', () => {
-                socket.emit('wanting_robot_token', snillrik_robottoken);
-                $("#snillrik_connecting_status").html("Connected");
-                $("#snillrik_connecting_status").css({ "color": "green" });
-            });
-
-        }
-    );
-
-    $("#snillrik_connecting_status").css({ "color": "gray" });
-
+   
     /**
      * Gamepad stuff
      */
@@ -70,9 +54,9 @@ jQuery(document).ready(function($) {
         controller_axis_and_buttons = JSON.parse($("#snillrik_controller_axis_and_buttons").val() == "" ? "{}" : $("#snillrik_controller_axis_and_buttons").val());
         $.post(
             page_info.ajax_url, {
-                "action": "snillrik_fetchsessontoken"
-            },
-            function(response) {
+            "action": "snillrik_fetchsessontoken"
+        },
+            function (response) {
                 sessiontoken = response;
                 console.log(response);
             }
@@ -91,28 +75,32 @@ jQuery(document).ready(function($) {
             var controller = controllers[j];
             let text_out = "";
 
+            //For the axes
             for (i = 0; i < controller.axes.length; i++) {
                 let is_set_str = controller_axis_and_buttons["axis_" + i] == undefined ? "" : controller_axis_and_buttons["axis_" + i];
                 let is_procset_str = controller_axis_and_buttons["axisproc_" + i] == undefined ? 1 : parseInt(controller_axis_and_buttons["axisproc_" + i]) / 100;
                 text_out += is_set_str + " " + (controller.axes[i] * is_procset_str).toFixed(4) + "<br />";
 
                 if (controller_axis_prev_val[i] != controller.axes[i] && is_set_str != "") {
-                    console.log("command: " + is_set_str);
-                    socket.emit("controller_command", { "command": is_set_str, "value": controller.axes[i] * is_procset_str });
-                    //socket.emit(is_set_str, controller.axes[i]*is_procset_str);
+                    console.log("command: " + controller.axes[i]);
+                    robottsocket.send({ "command": is_set_str, "value": controller.axes[i] * is_procset_str });
                     controller_axis_prev_val[i] = controller.axes[i];
                 }
-
             }
 
+            //For the buttons
             for (i = 0; i < controller.buttons.length; i++) {
                 var val = controller.buttons[i];
                 let is_set_str = controller_axis_and_buttons["button_" + i] == undefined ? "" : controller_axis_and_buttons["button_" + i];
                 var pressed = val == 1.0;
-                if (typeof(val) == "object" && is_set_str != "") {
+                if (typeof (val) == "object" && is_set_str != "") {
                     pressed = val.pressed;
-                    val = val.value;
-                    text_out += is_set_str + pressed + "  " + val + "<br />";
+                    if (pressed) {
+                        console.log(is_set_str);
+                        val = val.value;
+                        robottsocket.send(is_set_str);
+                        text_out += is_set_str + pressed + "  " + val + "<br />";
+                    }
                 }
             }
 
@@ -165,7 +153,7 @@ jQuery(document).ready(function($) {
     /**
      * Old stuff, for buttons on page. might make a comeback.
      */
-    $(".snillrik_robot_buttons").on("click", "a", function(e) {
+    $(".snillrik_robot_buttons").on("click", "a", function (e) {
         e.preventDefault();
         let robot_action = $(this).attr("id").split("_")[2];
 
@@ -177,7 +165,7 @@ jQuery(document).ready(function($) {
         $.post(
             page_info.ajax_url,
             data,
-            function(response) {
+            function (response) {
                 console.log(response);
             }
         );
