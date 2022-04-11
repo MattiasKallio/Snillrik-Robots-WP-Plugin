@@ -3,16 +3,21 @@ jQuery(document).ready(function ($) {
   if (hasgamepad_div) {
     var haveEvents = 'ongamepadconnected' in window;
     var controllers = {};
+
+    //connect gamepad
     function connecthandler(e) {
       console.log(e);
       addgamepad(e.gamepad);
     }
+
     function addgamepad(gamepad) {
       controllers[gamepad.index] = gamepad;
       let buttons_num = gamepad.buttons.length;
       let axes_num = gamepad.axes.length;
       //console.log(gamepad.id + buttons_num + " " + axes_num);
-      let saved_array = $("#snillrik_controller_axis_and_buttons").val()=="" ? "{}" : JSON.parse($("#snillrik_buttons_and_axis").val());
+      let saved_array = $("#snillrik_controller_axis_and_buttons").val()=="" 
+        ? "{}" 
+        : JSON.parse($("#snillrik_buttons_and_axis").val());
       let str_out = "<table><tr><th>Name</th><th>Action</th><th>Procent</th></tr>";
       console.log(saved_array);
       for(var i=0;i<axes_num;i++){

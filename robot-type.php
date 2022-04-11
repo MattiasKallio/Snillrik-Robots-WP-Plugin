@@ -93,6 +93,7 @@ class SNRobot_robot
         echo "</div>";
 
         $gampadinfo = get_post_meta($post->ID, 'snillrik_buttons_and_axis', true);
+        $gampadinfo = $gampadinfo ? $gampadinfo : "{}";
 
         echo "<div><div><h3>Gamepad</h3>
         <p>To set the gamepad, move any axis or push a button on it to select the gamepad you want to use.</p>
