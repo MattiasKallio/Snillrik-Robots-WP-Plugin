@@ -9,7 +9,8 @@ jQuery(document).ready(function($) {
     //var urlen = "http://localhost:3000/";
     //var urlen = "http://qwad.se:51237";
     //var urlen = "https://robotcar-271510.appspot.com";
-    let urlen = "http://robot.qwad.se";
+    //let urlen = "http://robot.qwad.se";
+    let urlen = "http://192.168.0.32/ws";
 
     var connection_attempts = 0;
     var socket = io(urlen, {
