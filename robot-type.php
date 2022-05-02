@@ -93,6 +93,7 @@ class SNRobot_robot
         echo "</div>";
 
         $gampadinfo = get_post_meta($post->ID, 'snillrik_buttons_and_axis', true);
+        $gampadinfo = $gampadinfo ? $gampadinfo : "{}";
 
         echo "<div><div><h3>Gamepad</h3>
         <p>To set the gamepad, move any axis or push a button on it to select the gamepad you want to use.</p>
@@ -167,12 +168,11 @@ class SNRobot_robot
         
         $current_user = wp_get_current_user();
         $post_user_id = isset($post->post_author) ? $post->post_author : "";
-
+        
         if (isset($post->post_type) && $post->post_type == 'snillrik_robot'){// && $current_user->ID == $post_user_id) {
 
             //$datetext = $dateend == "" ? $datestart : "$datestart till $dateend";
             $ipnumber = get_post_meta($post->ID, 'snillrik_robot_ip', true);
-
             $content .= do_shortcode("[snillrik_robot]");
             $content .= "<input type='hidden' id='snillrik_robot_ip' value='$ipnumber' />";
             $content .= "<br /><strong>IP: </strong> $ipnumber<br />";

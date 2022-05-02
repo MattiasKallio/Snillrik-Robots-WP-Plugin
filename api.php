@@ -5,7 +5,7 @@
  * API endpoints and stuff for Robot
  *
  * http://{domain}/wp-json/robot/token/blabla
- *
+ * http://{domain}/wp-json/snillrik_robot/getinfo/Seer3745Fu77/
  *
  */
 class SNRobot_api extends WP_REST_Controller
@@ -14,18 +14,18 @@ class SNRobot_api extends WP_REST_Controller
     public function __construct(){
         add_action('rest_api_init', function () {
             //Get specific market.
-            register_rest_route('robots', '/getinfo/(?P<token>[a-zA-Z0-9-]+)', array(
+            register_rest_route(SNILLRIK_ROBOT_POST_TYPE_NAME, '/getinfo/(?P<token>[a-zA-Z0-9-]+)', array(
                 'methods' => 'GET',
                 'callback' => array($this, 'get_robot_info'),
                 'permission_callback' => '__return_true'
             ));
-            register_rest_route('robots', '/addinfo/(?P<token>[a-zA-Z0-9-]+)', array(
+            register_rest_route(SNILLRIK_ROBOT_POST_TYPE_NAME, '/addinfo/(?P<token>[a-zA-Z0-9-]+)', array(
                 'methods' => 'GET',
                 'callback' => array($this, 'add_robot_info'),
                 'permission_callback' => '__return_true'
             ));            
 
-            register_rest_route('robots', '/popular', array(
+            register_rest_route(SNILLRIK_ROBOT_POST_TYPE_NAME, '/popular', array(
                 'methods' => 'GET',
                 'callback' => array($this,'robot_popular'),
                 'permission_callback' => '__return_true'
