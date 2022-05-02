@@ -23,7 +23,7 @@ jQuery(document).ready(function ($) {
       for(var i=0;i<axes_num;i++){
         let is_set_str = saved_array["axis_"+i]==undefined ? "" : saved_array["axis_"+i];
         let is_proc_str = saved_array["axisproc_"+i]==undefined ? "" : saved_array["axisproc_"+i];
-        str_out += "<tr><td><strong>Axis"+i+"</strong></td><td><input type='text' name='snillrik_gamepadins[]' id='axis_"+i+"' value='"+is_set_str+"' /></td><td><input type='text' name='snillrik_gamepadins[]' id='axisproc_"+i+"' value='"+is_proc_str+"' /></td></tr>";
+        str_out += "<tr><td><strong>Axis"+i+"</strong><span id='axismoving_"+i+"'></span></td><td><input type='text' name='snillrik_gamepadins[]' id='axis_"+i+"' value='"+is_set_str+"' /></td><td><input type='text' name='snillrik_gamepadins[]' id='axisproc_"+i+"' value='"+is_proc_str+"' /></td></tr>";
         //$("#snillrik_robot_gamepad_info").append("<tr><td><strong>Axis"+i+"</strong></td><td><input type='text' name='snillrik_gamepadins[]' id='axis_"+i+"' value='"+is_set_str+"' /></td><td><input type='text' name='snillrik_gamepadins[]' id='axisproc_"+i+"' value='"+is_proc_str+"' /></td></tr>");
       }
       for(var i=0;i<buttons_num;i++){
@@ -50,14 +50,16 @@ jQuery(document).ready(function ($) {
         
         for (i = 0; i < controller.axes.length; i++) {
           if(controller.axes[i]>0.1 || controller.axes[i]<-0.1){
-            console.log("moving "+ i);
+            //console.log("moving "+ i);
+            $("#axismoving_"+i).html("<br />"+controller.axes[i].toFixed(3));
             $("#axis_"+i).css({background:"#ffd6d6"});
           }
           else{
             $("#axis_"+i).css({background:"#fff"});
           }
-          //text_out += controller.axes[i].toFixed(4) + "<br />";
+          text_out += controller.axes[i].toFixed(4) + "<br />";
         }
+        //console.log(text_out);
        
         for (i = 0; i < controller.buttons.length; i++) {
           var val = controller.buttons[i];

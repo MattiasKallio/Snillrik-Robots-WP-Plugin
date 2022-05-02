@@ -4,11 +4,36 @@
     align-items: stretch;
 }
 
+.snillrik_robot_buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    align-content: center;
+}
+
 .snillrik_robot_buttons a {
-    padding: 1px 10px;
+    cursor: pointer;
+    background: #cbcbcb;
+    margin: 5px;
+    padding: 4px 12px;
+    border-radius: 10px;
+}
+
+#snillrik_connecting_status{
+    background: #d86d6d;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
     cursor: pointer;
 }
 
+#snillrik_connecting_status.snillrik_connected{
+    background: #8fd86d;
+}
 
 /* Large */
 
@@ -16,8 +41,6 @@
 /* .snillrik_robotsboxes {
     display: flex;
     flex-flow: row wrap;
-    /* This aligns items to the end line on main-axis */
-
 justify-content: flex-end;
 
 }
