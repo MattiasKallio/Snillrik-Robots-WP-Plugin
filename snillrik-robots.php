@@ -15,10 +15,10 @@ DEFINE("SNILLRIK_ROBOT_DIR", plugin_dir_path(__FILE__));
 DEFINE("SNILLRIK_ROBOT_POST_TYPE_NAME", "snillrik_robot");
 
 
-require_once SNILLRIK_ROBOT_DIR . 'robot-type.php';
-require_once SNILLRIK_ROBOT_DIR . 'api.php';
-require_once SNILLRIK_ROBOT_DIR . 'settings.php';
-require_once SNILLRIK_ROBOT_DIR . 'includes/shortcodes.php';
+require_once SNILLRIK_ROBOT_DIR . 'classes/robot-type.php';
+require_once SNILLRIK_ROBOT_DIR . 'classes/api.php';
+require_once SNILLRIK_ROBOT_DIR . 'classes/settings.php';
+require_once SNILLRIK_ROBOT_DIR . 'classes/shortcodes.php';
 
 new SNRobot_robot();
 new SNRobot_shortcodes();
