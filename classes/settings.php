@@ -20,7 +20,7 @@ class SNRobot_settings
             'administrator',
             __FILE__,
             array($this,'snillrik_settings_page'),
-            plugins_url('/images/snillrik_bulb.svg', __FILE__)
+            SNILLRIK_ROBOT_PLUGIN_URL.'/images/snillrik_icon.svg'
         );
     }
 
