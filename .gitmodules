@@ -1,0 +1,3 @@
+[submodule "snillrik-plugin-maintenance"]
+	path = snillrik-plugin-maintenance
+	url = https://github.com/MattiasKallio/snillrik-plugin-maintenance.git
