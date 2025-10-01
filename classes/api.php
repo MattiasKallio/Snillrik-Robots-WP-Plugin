@@ -86,8 +86,34 @@ public function add_robot_info($request){
             'post_type' => 'snillrik_robot'
         );
         $robot = get_posts($args);
+        $robot = reset($robot);
+        
+        $metadata = get_post_meta($robot->ID);
+        $metadata = array_map(function($value) {
+            return is_array($value) ? $value[0] : $value;
+        }, $metadata);
 
-        return array("content" => $robot);
+        if(!$robot){
+            return array("response" => "error", "message" => "No robot found with that token.");
+        }
+
+        $content_out = [
+            "id" => $robot->ID,
+            "title" => $robot->post_title,
+            "url" => get_permalink($robot->ID),
+            "metadata" => [
+                "snillrik_robot_openornot" => $metadata["snillrik_robot_openornot"],
+                "snillrik_robot_ip" => $metadata["snillrik_robot_ip"],
+                "snillrik_robot_sessiontoken" => $metadata["snillrik_robot_sessiontoken"],
+                "snillrik_buttons_and_axis" => json_decode($metadata["snillrik_buttons_and_axis"]),
+            ]
+        ];
+
+        return array(
+            "response" => "ok",
+            "message" => "Robot found",
+            "content" => $content_out
+        );
     }
 
 }

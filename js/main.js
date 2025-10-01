@@ -15,7 +15,6 @@ jQuery(document).ready(function ($) {
     var heartbeat_msg = JSON.stringify({ "command": 'am_i_alive', "value": true }), heartbeat_interval = null, missed_heartbeats = 0;
     console.log(robottsocket);
 
-
     function connect() {
         is_connected = false;
         robottsocket = new WebSocket(urlen, "protocolOne");

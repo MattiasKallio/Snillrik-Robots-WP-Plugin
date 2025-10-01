@@ -31,14 +31,13 @@ function snillrik_robot_admin_scripts(){
 }
 add_action('admin_enqueue_scripts', 'snillrik_robot_admin_scripts');
 
-function snillrik_robot_add_scripts(){
+add_action('wp_enqueue_scripts', function (){
     wp_enqueue_style('snillrik-robot-main', SNILLRIK_ROBOT_PLUGIN_URL . 'css/front.css');
     wp_register_script('snillrik-robot-main-script', SNILLRIK_ROBOT_PLUGIN_URL . 'js/main.js', array('jquery'));
     wp_localize_script('snillrik-robot-main-script', 'page_info', array(
         'ajax_url' => admin_url('admin-ajax.php')
     ));
-}
-add_action('wp_enqueue_scripts', 'snillrik_robot_add_scripts');
+});
 
 add_action('init', function () {
     if (is_admin()) {

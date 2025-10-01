@@ -19,6 +19,7 @@ class SNRobot_shortcodes
 
         $return_str = "Error";
 
+        error_log("Robot token: " . $attributes["token"]);
         $robot = SNRobot_robot::get_from_token($attributes["token"]);
         if($robot)
             $return_str = "Robotname".$robot->post_title;
